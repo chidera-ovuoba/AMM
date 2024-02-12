@@ -13,8 +13,15 @@ const reponse = await client.request({
     "account":test_wallet.classicAddress,
     "ledger_index":"validated"
 });
-// listening on Ledger close event 
-console.log(reponse);
+// listening on disconnection event 
+client.request({
+    "command":"subscribe",
+    "streams":["ledger","server"]
+})
+client.on("disconnected",async (server)=>{
+    console.log(`Server: ${server}`)
+})
+// console.log(reponse);
 await client.disconnect();
 }
 main()
